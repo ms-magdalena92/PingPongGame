@@ -45276,8 +45276,8 @@ object Form1: TForm1
     Transparent = True
   end
   object ball: TImage
-    Left = 464
-    Top = 224
+    Left = 256
+    Top = 208
     Width = 43
     Height = 43
     AutoSize = True
@@ -45490,6 +45490,12 @@ object Form1: TForm1
     Interval = 20
     OnTimer = DownPaddleRightTimerTimer
     Left = 912
+    Top = 432
+  end
+  object BallTimer: TTimer
+    Interval = 25
+    OnTimer = BallTimerTimer
+    Left = 496
     Top = 432
   end
 end
