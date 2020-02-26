@@ -11,6 +11,29 @@ TForm1 *Form1;
 
 int xBallMove = -10;
 int yBallMove = -10;
+int numbOfBounces = 0;
+int rightPlayerScore = 0;
+int leftPlayerScore = 0;
+
+void startGame (TImage* ball, TImage* rightPaddle, TImage* leftPaddle, TTimer* BallTimer)
+{
+    numbOfBounces = 0;
+
+    xBallMove = -10;
+    yBallMove = -10;
+    ball -> Left = 465;
+    ball -> Top = 315;
+
+    leftPaddle -> Left = 30;
+    rightPaddle -> Left = 915;
+    leftPaddle -> Top = 180;
+    rightPaddle -> Top = 180;
+
+    ball -> Visible = true;
+    BallTimer -> Enabled = true;
+    rightPaddle -> Enabled = true;
+    leftPaddle -> Enabled = true;
+}
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
         : TForm(Owner)
@@ -84,20 +107,100 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
         yBallMove = -yBallMove;
     if(ball -> Top + ball -> Height + 5 > table -> Top + table -> Height - 25)
         yBallMove = -yBallMove;
-    if(ball -> Top + ball -> Height < rightPaddle -> Top + rightPaddle -> Height
-       && ball -> Top > rightPaddle -> Top
-       && ball -> Left + ball -> Width < rightPaddle -> Left)
-        {
-            if(yBallMove > 0)
-                xBallMove = -xBallMove;
-        }
-    if(ball -> Top + ball -> Height < leftPaddle -> Top + leftPaddle -> Height
-       && ball -> Top > leftPaddle -> Top
-       && ball -> Left > leftPaddle -> Left + leftPaddle -> Width)
-        {
-            if(yBallMove > 0)
-                xBallMove = -xBallMove;
-        }
+    if(ball -> Top + ball -> Height >= rightPaddle -> Top
+       && ball  -> Top <= rightPaddle -> Top + rightPaddle -> Height
+       && ball -> Left + ball -> Width >= rightPaddle -> Left
+       && ball -> Left > table -> Left + table -> Width/2)
+       {
+           xBallMove = -xBallMove;
+           numbOfBounces++;
+       }
+    if(ball -> Top + ball -> Height >= leftPaddle -> Top
+       && ball  -> Top <= leftPaddle -> Top + leftPaddle -> Height
+       && ball -> Left <= leftPaddle -> Left + leftPaddle -> Width
+       && ball -> Left + ball -> Width < table -> Left + table -> Width/2)
+       {
+           xBallMove = -xBallMove;
+           numbOfBounces++;
+       }
+    if(ball -> Left < leftPaddle -> Left + leftPaddle -> Width - 10
+            && ball -> Left + ball -> Width < table -> Left + table -> Width/2)
+       {
+            ball -> Visible = false;
+            BallTimer -> Enabled = false;
+
+            rightPlayerScore++;
+
+            rightPaddle -> Enabled = false;
+            leftPaddle -> Enabled = false;
+
+            Button2 -> Visible = true;
+            Button3 -> Visible = true;
+
+            Label1 -> Visible = true;
+            Label1 -> Caption = "Number of bounces: " + IntToStr(numbOfBounces);
+
+            Label2 -> Visible = true;
+            Label2 -> Caption = IntToStr(leftPlayerScore) + ":" + IntToStr(rightPlayerScore);
+            Label3 -> Visible = true;
+            Label3 -> Caption = "POINT FOR THE RIGHT PLAYER ->";
+       }
+    if(ball -> Left + ball -> Width > rightPaddle -> Left + 10
+            && ball -> Left > table -> Left + table -> Width/2)
+       {
+            ball -> Visible = false;
+            BallTimer -> Enabled = false;
+
+            leftPlayerScore++;
+
+            rightPaddle -> Enabled = false;
+            leftPaddle -> Enabled = false;
+
+            Button2 -> Visible = true;
+            Button3 -> Visible = true;
+
+            Label1 -> Visible = true;
+            Label1 -> Caption = "Number of bounces: " + IntToStr(numbOfBounces);
+
+            Label2 -> Visible = true;
+            Label2 -> Caption = IntToStr(leftPlayerScore) + ":" + IntToStr(rightPlayerScore);
+            Label3 -> Visible = true;
+            Label3 -> Caption = "<- POINT FOR THE LEFT PLAYER";
+       }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+    numbOfBounces = 0;
+    rightPlayerScore = 0;
+    leftPlayerScore = 0;
+    Button3Click(Form1);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button2Click(TObject *Sender)
+{
+    if(Application -> MessageBox("Do you really want to start a new game?",
+       "Confirm", MB_YESNO | MB_ICONQUESTION) == ID_YES)
+    {
+       Button2 -> Visible = False;
+       Button1Click(Form1);
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button3Click(TObject *Sender)
+{
+    Label1 -> Visible = false;
+    Label2 -> Visible = false;
+    Label3 -> Visible = false;
+
+    Button1 -> Visible = false;
+    Button2 -> Visible = false;
+    Button3 -> Visible = false;
+
+    startGame(ball,rightPaddle, leftPaddle, BallTimer);
 }
 //---------------------------------------------------------------------------
 
