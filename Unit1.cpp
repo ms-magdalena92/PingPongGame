@@ -4,6 +4,7 @@
 #pragma hdrstop
 
 #include "Unit1.h"
+#include "mmsystem.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -20,6 +21,7 @@ bool angleChanged = false;
 
 void startGame (TImage* ball, TImage* rightPaddle, TImage* leftPaddle, TTimer* BallTimer)
 {
+    sndPlaySound("snd/start.wav", SND_ASYNC);
     numbOfBounces = 0;
     speededUp = false;
     angleChanged = false;
@@ -39,6 +41,8 @@ void startGame (TImage* ball, TImage* rightPaddle, TImage* leftPaddle, TTimer* B
     BallTimer -> Enabled = true;
     rightPaddle -> Enabled = true;
     leftPaddle -> Enabled = true;
+    Application -> ProcessMessages();
+    Sleep(1000);
 }
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
@@ -151,6 +155,7 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
             ballTimerInterval = 1;
 
         BallTimer -> Interval = ballTimerInterval;
+        sndPlaySound("snd/ball.wav", SND_ASYNC);
         xBallMove = -xBallMove;
         numbOfBounces++;
     }
@@ -189,12 +194,14 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
             ballTimerInterval = 1;
 
         BallTimer -> Interval = ballTimerInterval;
+        sndPlaySound("snd/ball.wav", SND_ASYNC);
         xBallMove = -xBallMove;
         numbOfBounces++;
     }
     else if(ball -> Left < leftPaddle -> Left + leftPaddle -> Width
             && ball -> Left + ball -> Width < table -> Left + table -> Width/2)
     {
+        sndPlaySound("snd/loss.wav", SND_ASYNC);
         ball -> Visible = false;
         BallTimer -> Enabled = false;
 
@@ -217,6 +224,7 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
     else if(ball -> Left + ball -> Width > rightPaddle -> Left
             && ball -> Left > table -> Left + table -> Width/2)
     {
+        sndPlaySound("snd/loss.wav", SND_ASYNC);
         ball -> Visible = false;
         BallTimer -> Enabled = false;
 
