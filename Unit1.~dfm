@@ -45567,28 +45567,28 @@ object Form1: TForm1
   end
   object UpPaddleLeftTimer: TTimer
     Enabled = False
-    Interval = 20
+    Interval = 5
     OnTimer = UpPaddleLeftTimerTimer
     Left = 32
     Top = 24
   end
   object DownPaddleLeftTimer: TTimer
     Enabled = False
-    Interval = 20
+    Interval = 5
     OnTimer = DownPaddleLeftTimerTimer
     Left = 32
     Top = 432
   end
   object UpPaddleRightTimer: TTimer
     Enabled = False
-    Interval = 20
+    Interval = 5
     OnTimer = UpPaddleRightTimerTimer
     Left = 912
     Top = 24
   end
   object DownPaddleRightTimer: TTimer
     Enabled = False
-    Interval = 20
+    Interval = 5
     OnTimer = DownPaddleRightTimerTimer
     Left = 912
     Top = 432

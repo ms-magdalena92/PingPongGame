@@ -10,17 +10,21 @@
 TForm1 *Form1;
 
 int xBallMove = -10;
-int yBallMove = -10;
+int yBallMove = -7;
 int numbOfBounces = 0;
 int rightPlayerScore = 0;
 int leftPlayerScore = 0;
+int ballTimerInterval = 25;
+bool speededUp = false;
+bool angleChanged = false;
 
 void startGame (TImage* ball, TImage* rightPaddle, TImage* leftPaddle, TTimer* BallTimer)
 {
     numbOfBounces = 0;
+    ballTimerInterval = 25;
+    BallTimer -> Interval = ballTimerInterval;
 
     xBallMove = -10;
-    yBallMove = -10;
     ball -> Left = 465;
     ball -> Top = 315;
 
@@ -44,7 +48,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 void __fastcall TForm1::UpPaddleLeftTimerTimer(TObject *Sender)
 {
     if(leftPaddle -> Top > table -> Top + 30)
-        leftPaddle -> Top -= 10;
+        leftPaddle -> Top -= 5;
 }
 //---------------------------------------------------------------------------
 
@@ -65,7 +69,7 @@ void __fastcall TForm1::DownPaddleLeftTimerTimer(TObject *Sender)
 {
     if(leftPaddle -> Top + leftPaddle -> Height <
        table -> Top + table -> Height - 30)
-        leftPaddle -> Top += 10;
+        leftPaddle -> Top += 5;
 }
 //---------------------------------------------------------------------------
 
@@ -86,7 +90,7 @@ void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key,
 void __fastcall TForm1::UpPaddleRightTimerTimer(TObject *Sender)
 {
     if(rightPaddle -> Top > table -> Top + 30)
-        rightPaddle -> Top -= 10;
+        rightPaddle -> Top -= 5;
 }
 //---------------------------------------------------------------------------
 
@@ -94,7 +98,7 @@ void __fastcall TForm1::DownPaddleRightTimerTimer(TObject *Sender)
 {
     if(rightPaddle -> Top + rightPaddle -> Height <
        table -> Top + table -> Height - 30)
-        rightPaddle -> Top += 10;
+        rightPaddle -> Top += 5;
 }
 //---------------------------------------------------------------------------
 
@@ -112,6 +116,34 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        && ball -> Left + ball -> Width >= rightPaddle -> Left
        && ball -> Left > table -> Left + table -> Width/2)
        {
+           if (speededUp == true && angleChanged == true)
+           {
+               xBallMove = -10;
+               ballTimerInterval += 10;
+               speededUp = false;
+               angleChanged = false;
+           }
+           else if(ball -> Top + ball -> Height/2 > rightPaddle -> Top + rightPaddle -> Height/2 - 15
+              && ball -> Top + ball -> Height/2 < rightPaddle -> Top + rightPaddle -> Height/2 + 15
+              && ballTimerInterval > 10)
+              {
+                  ballTimerInterval -= 10;
+                  speededUp = true;
+                  if(xBallMove == -10)
+                  {
+                     xBallMove -= 5;
+                     angleChanged = true;
+                  }
+                  if(xBallMove == 10)
+                  {
+                     xBallMove += 5;
+                     angleChanged = true;
+                  }
+              }
+           else if(ballTimerInterval > 2)
+               ballTimerInterval -= 2;
+
+           BallTimer -> Interval = ballTimerInterval;
            xBallMove = -xBallMove;
            numbOfBounces++;
        }
@@ -120,6 +152,34 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        && ball -> Left <= leftPaddle -> Left + leftPaddle -> Width
        && ball -> Left + ball -> Width < table -> Left + table -> Width/2)
        {
+           if (speededUp == true && angleChanged == true)
+           {
+               xBallMove = -10;
+               ballTimerInterval += 10;
+               speededUp = false;
+               angleChanged = false;
+           }
+           if(ball -> Top + ball -> Height/2 > leftPaddle -> Top + leftPaddle -> Height/2 - 15
+              && ball -> Top + ball -> Height/2 < leftPaddle -> Top + leftPaddle -> Height/2 + 15
+              && ballTimerInterval > 10)
+              {
+                  ballTimerInterval -= 10;
+                  speededUp = true;
+                  if(xBallMove == -10)
+                  {
+                     xBallMove -= 5;
+                     angleChanged = true;
+                  }
+                  if(xBallMove == 10)
+                  {
+                     xBallMove += 5;
+                     angleChanged = true;
+                  }
+              }
+           else if(ballTimerInterval > 2)
+               ballTimerInterval -= 2;
+
+           BallTimer -> Interval = ballTimerInterval;
            xBallMove = -xBallMove;
            numbOfBounces++;
        }
@@ -172,7 +232,6 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
 
 void __fastcall TForm1::Button1Click(TObject *Sender)
 {
-    numbOfBounces = 0;
     rightPlayerScore = 0;
     leftPlayerScore = 0;
     Button3Click(Form1);
