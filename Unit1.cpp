@@ -10,11 +10,13 @@
 TForm1 *Form1;
 
 int xBallMove = -10;
-int yBallMove = -10;
+int yBallMove = -7;
 int numbOfBounces = 0;
 int rightPlayerScore = 0;
 int leftPlayerScore = 0;
 int ballTimerInterval = 25;
+bool speededUp = false;
+bool angleChanged = false;
 
 void startGame (TImage* ball, TImage* rightPaddle, TImage* leftPaddle, TTimer* BallTimer)
 {
@@ -23,7 +25,6 @@ void startGame (TImage* ball, TImage* rightPaddle, TImage* leftPaddle, TTimer* B
     BallTimer -> Interval = ballTimerInterval;
 
     xBallMove = -10;
-    yBallMove = -10;
     ball -> Left = 465;
     ball -> Top = 315;
 
@@ -115,10 +116,30 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        && ball -> Left + ball -> Width >= rightPaddle -> Left
        && ball -> Left > table -> Left + table -> Width/2)
        {
-           if(ball -> Top + ball -> Height/2 > rightPaddle -> Top + rightPaddle -> Height/2 - 15
+           if (speededUp == true && angleChanged == true)
+           {
+               xBallMove = -10;
+               ballTimerInterval += 10;
+               speededUp = false;
+               angleChanged = false;
+           }
+           else if(ball -> Top + ball -> Height/2 > rightPaddle -> Top + rightPaddle -> Height/2 - 15
               && ball -> Top + ball -> Height/2 < rightPaddle -> Top + rightPaddle -> Height/2 + 15
               && ballTimerInterval > 10)
-              ballTimerInterval -= 10;
+              {
+                  ballTimerInterval -= 10;
+                  speededUp = true;
+                  if(xBallMove == -10)
+                  {
+                     xBallMove -= 5;
+                     angleChanged = true;
+                  }
+                  if(xBallMove == 10)
+                  {
+                     xBallMove += 5;
+                     angleChanged = true;
+                  }
+              }
            else if(ballTimerInterval > 2)
                ballTimerInterval -= 2;
 
@@ -131,10 +152,30 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        && ball -> Left <= leftPaddle -> Left + leftPaddle -> Width
        && ball -> Left + ball -> Width < table -> Left + table -> Width/2)
        {
+           if (speededUp == true && angleChanged == true)
+           {
+               xBallMove = -10;
+               ballTimerInterval += 10;
+               speededUp = false;
+               angleChanged = false;
+           }
            if(ball -> Top + ball -> Height/2 > leftPaddle -> Top + leftPaddle -> Height/2 - 15
               && ball -> Top + ball -> Height/2 < leftPaddle -> Top + leftPaddle -> Height/2 + 15
               && ballTimerInterval > 10)
-              ballTimerInterval -= 10;
+              {
+                  ballTimerInterval -= 10;
+                  speededUp = true;
+                  if(xBallMove == -10)
+                  {
+                     xBallMove -= 5;
+                     angleChanged = true;
+                  }
+                  if(xBallMove == 10)
+                  {
+                     xBallMove += 5;
+                     angleChanged = true;
+                  }
+              }
            else if(ballTimerInterval > 2)
                ballTimerInterval -= 2;
 
