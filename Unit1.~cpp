@@ -115,7 +115,11 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        && ball -> Left + ball -> Width >= rightPaddle -> Left
        && ball -> Left > table -> Left + table -> Width/2)
        {
-           if(ballTimerInterval > 2)
+           if(ball -> Top + ball -> Height/2 > rightPaddle -> Top + rightPaddle -> Height - 15
+              && ball -> Top + ball -> Height/2 < rightPaddle -> Top + rightPaddle -> Height + 15
+              && ballTimerInterval > 10)
+              ballTimerInterval -= 10;
+           else if(ballTimerInterval > 2)
                ballTimerInterval -= 2;
 
            BallTimer -> Interval = ballTimerInterval;
@@ -127,7 +131,11 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        && ball -> Left <= leftPaddle -> Left + leftPaddle -> Width
        && ball -> Left + ball -> Width < table -> Left + table -> Width/2)
        {
-           if(ballTimerInterval > 2)
+           if(ball -> Top + ball -> Height/2 > leftPaddle -> Top + leftPaddle -> Height - 15
+              && ball -> Top + ball -> Height/2 < leftPaddle -> Top + leftPaddle -> Height + 15
+              && ballTimerInterval > 10)
+              ballTimerInterval -= 10;
+           else if(ballTimerInterval > 2)
                ballTimerInterval -= 2;
 
            BallTimer -> Interval = ballTimerInterval;
