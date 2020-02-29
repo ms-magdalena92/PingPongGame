@@ -14,10 +14,13 @@ int yBallMove = -10;
 int numbOfBounces = 0;
 int rightPlayerScore = 0;
 int leftPlayerScore = 0;
+int ballTimerInterval = 25;
 
 void startGame (TImage* ball, TImage* rightPaddle, TImage* leftPaddle, TTimer* BallTimer)
 {
     numbOfBounces = 0;
+    ballTimerInterval = 25;
+    BallTimer -> Interval = ballTimerInterval;
 
     xBallMove = -10;
     yBallMove = -10;
@@ -112,6 +115,10 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        && ball -> Left + ball -> Width >= rightPaddle -> Left
        && ball -> Left > table -> Left + table -> Width/2)
        {
+           if(ballTimerInterval > 2)
+               ballTimerInterval -= 2;
+
+           BallTimer -> Interval = ballTimerInterval;
            xBallMove = -xBallMove;
            numbOfBounces++;
        }
@@ -120,6 +127,10 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
        && ball -> Left <= leftPaddle -> Left + leftPaddle -> Width
        && ball -> Left + ball -> Width < table -> Left + table -> Width/2)
        {
+           if(ballTimerInterval > 2)
+               ballTimerInterval -= 2;
+
+           BallTimer -> Interval = ballTimerInterval;
            xBallMove = -xBallMove;
            numbOfBounces++;
        }
@@ -172,7 +183,6 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
 
 void __fastcall TForm1::Button1Click(TObject *Sender)
 {
-    numbOfBounces = 0;
     rightPlayerScore = 0;
     leftPlayerScore = 0;
     Button3Click(Form1);
