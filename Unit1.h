@@ -13,10 +13,6 @@
 class TForm1 : public TForm
 {
 __published:	// IDE-managed Components
-        TImage *table;
-        TImage *rightPaddle;
-        TImage *leftPaddle;
-        TImage *ball;
         TTimer *UpPaddleLeftTimer;
         TTimer *DownPaddleLeftTimer;
         TTimer *UpPaddleRightTimer;
@@ -28,6 +24,10 @@ __published:	// IDE-managed Components
         TLabel *Label3;
         TLabel *Label2;
         TButton *Button2;
+        TShape *table;
+        TShape *leftPaddle;
+        TShape *rightPaddle;
+        TShape *ball;
         void __fastcall UpPaddleLeftTimerTimer(TObject *Sender);
         void __fastcall FormKeyDown(TObject *Sender, WORD &Key,
           TShiftState Shift);

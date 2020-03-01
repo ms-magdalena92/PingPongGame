@@ -19,7 +19,7 @@ int ballTimerInterval = 25;
 bool speededUp = false;
 bool angleChanged = false;
 
-void startGame (TImage* ball, TImage* rightPaddle, TImage* leftPaddle, TTimer* BallTimer)
+void startGame (TShape* ball, TShape* rightPaddle, TShape* leftPaddle, TTimer* BallTimer, TShape* table)
 {
     sndPlaySound("snd/start.wav", SND_ASYNC);
     numbOfBounces = 0;
@@ -28,14 +28,13 @@ void startGame (TImage* ball, TImage* rightPaddle, TImage* leftPaddle, TTimer* B
     ballTimerInterval = 25;
     BallTimer -> Interval = ballTimerInterval;
 
-    //xBallMove = -10;
-    ball -> Left = 465;
-    ball -> Top = 315;
+    ball -> Left = table -> Left + table -> Width/2 - ball -> Width/2;
+    ball -> Top = table -> Top + table -> Height/2 - ball -> Height/2;
 
-    leftPaddle -> Left = 30;
-    rightPaddle -> Left = 915;
-    leftPaddle -> Top = 180;
-    rightPaddle -> Top = 180;
+    leftPaddle -> Left = table -> Left + 20;
+    rightPaddle -> Left = table -> Left + table -> Width - 20 - rightPaddle -> Width;
+    leftPaddle -> Top = table -> Top + table -> Height/2 - leftPaddle -> Height/2;
+    rightPaddle -> Top = table -> Top + table -> Height/2 - rightPaddle -> Height/2;
 
     ball -> Visible = true;
     BallTimer -> Enabled = true;
@@ -53,7 +52,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 void __fastcall TForm1::UpPaddleLeftTimerTimer(TObject *Sender)
 {
-    if(leftPaddle -> Top > table -> Top + 10)
+    if(leftPaddle -> Top > table -> Top)
         leftPaddle -> Top -= 5;
 }
 //---------------------------------------------------------------------------
@@ -74,7 +73,7 @@ void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key,
 void __fastcall TForm1::DownPaddleLeftTimerTimer(TObject *Sender)
 {
     if(leftPaddle -> Top + leftPaddle -> Height <
-            table -> Top + table -> Height - 10)
+            table -> Top + table -> Height)
         leftPaddle -> Top += 5;
 }
 //---------------------------------------------------------------------------
@@ -95,7 +94,7 @@ void __fastcall TForm1::FormKeyUp(TObject *Sender, WORD &Key,
 
 void __fastcall TForm1::UpPaddleRightTimerTimer(TObject *Sender)
 {
-    if(rightPaddle -> Top > table -> Top + 10)
+    if(rightPaddle -> Top > table -> Top)
         rightPaddle -> Top -= 5;
 }
 //---------------------------------------------------------------------------
@@ -103,7 +102,7 @@ void __fastcall TForm1::UpPaddleRightTimerTimer(TObject *Sender)
 void __fastcall TForm1::DownPaddleRightTimerTimer(TObject *Sender)
 {
     if(rightPaddle -> Top + rightPaddle -> Height <
-            table -> Top + table -> Height - 10)
+            table -> Top + table -> Height)
         rightPaddle -> Top += 5;
 }
 //---------------------------------------------------------------------------
@@ -113,9 +112,9 @@ void __fastcall TForm1::BallTimerTimer(TObject *Sender)
     ball -> Left += xBallMove;
     ball -> Top += yBallMove;
 
-    if(ball -> Top - 5 < table -> Top + 25)
+    if(ball -> Top < table -> Top)
         yBallMove = -yBallMove;
-    if(ball -> Top + ball -> Height + 5 > table -> Top + table -> Height - 25)
+    if(ball -> Top + ball -> Height > table -> Top + table -> Height)
         yBallMove = -yBallMove;
     if(ball -> Top + ball -> Height >= rightPaddle -> Top
             && ball -> Top <= rightPaddle -> Top + rightPaddle -> Height
@@ -276,19 +275,11 @@ void __fastcall TForm1::Button3Click(TObject *Sender)
     Button2 -> Visible = false;
     Button3 -> Visible = false;
 
-    startGame(ball,rightPaddle, leftPaddle, BallTimer);
+    startGame(ball,rightPaddle, leftPaddle, BallTimer, table);
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormCreate(TObject *Sender)
 {
-     /*Application -> MessageBox("Welcome To PingPong Game!\n\n"
-     "The left player moves the paddle by pressing the A or Z keys.\n"
-     "The right player moves the paddle by pressing the up or down arrow keys.\n\n"
-     "While bouncing the ball in center of the paddle it accelerates and moves"
-     "with a different angle.\n"
-     "The longer you bounce, the faster the ball moves.\n"
-     "You can freely change the playing field.\n\nHave fun!",
-     "PingPong", MB_OK | MB_ICONINFORMATION);*/
      MessageDlg("Welcome To PingPong Game!\n\n"
      "The left player moves the paddle by pressing the A or Z keys.\n"
      "The right player moves the paddle by pressing the up or down arrow keys.\n\n"
@@ -299,4 +290,3 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
      mtInformation, TMsgDlgButtons() << mbOK, 0);
 }
 //---------------------------------------------------------------------------
-
