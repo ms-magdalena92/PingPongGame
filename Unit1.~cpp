@@ -41,6 +41,7 @@ void startGame (TImage* ball, TImage* rightPaddle, TImage* leftPaddle, TTimer* B
     BallTimer -> Enabled = true;
     rightPaddle -> Enabled = true;
     leftPaddle -> Enabled = true;
+    Application -> ProcessMessages();
     Sleep(1000);
 }
 //---------------------------------------------------------------------------
@@ -278,3 +279,24 @@ void __fastcall TForm1::Button3Click(TObject *Sender)
     startGame(ball,rightPaddle, leftPaddle, BallTimer);
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm1::FormCreate(TObject *Sender)
+{
+     /*Application -> MessageBox("Welcome To PingPong Game!\n\n"
+     "The left player moves the paddle by pressing the A or Z keys.\n"
+     "The right player moves the paddle by pressing the up or down arrow keys.\n\n"
+     "While bouncing the ball in center of the paddle it accelerates and moves"
+     "with a different angle.\n"
+     "The longer you bounce, the faster the ball moves.\n"
+     "You can freely change the playing field.\n\nHave fun!",
+     "PingPong", MB_OK | MB_ICONINFORMATION);*/
+     MessageDlg("Welcome To PingPong Game!\n\n"
+     "The left player moves the paddle by pressing the A or Z keys.\n"
+     "The right player moves the paddle by pressing the up or down arrow keys.\n\n"
+     "While bouncing the ball in center of the paddle it accelerates and moves"
+     " with a different angle.\n"
+     "The longer you bounce the ball, the faster the ball moves.\n"
+     "You can freely change the playing field.\n\nHave fun!",
+     mtInformation, TMsgDlgButtons() << mbOK, 0);
+}
+//---------------------------------------------------------------------------
+

@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 239
-  Top = 198
+  Left = 221
+  Top = 114
   Width = 986
   Height = 528
   Caption = 'Ping Pong Game'
@@ -13,6 +13,7 @@ object Form1: TForm1
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnKeyUp = FormKeyUp
   PixelsPerInch = 96
