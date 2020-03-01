@@ -290,3 +290,16 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
      mtInformation, TMsgDlgButtons() << mbOK, 0);
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TForm1::FormCanResize(TObject *Sender, int &NewWidth,
+      int &NewHeight, bool &Resize)
+{
+    Button2 -> Left = table -> Left + table -> Width/2 - Button2 -> Width/2;
+    Button3 -> Left = table -> Left + table -> Width/2 - Button3 -> Width/2;
+
+    Label1 -> Left = table -> Left + table -> Width/2 - Label1 -> Width/2;
+    Label2 -> Left = table -> Left + table -> Width/2 - Label2 -> Width/2;
+    Label3 -> Left = table -> Left + table -> Width/2 - Label3 -> Width/2;
+}
+//---------------------------------------------------------------------------
+
