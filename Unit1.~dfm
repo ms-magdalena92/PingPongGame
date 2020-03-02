@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 221
-  Top = 114
-  Width = 986
+  Left = 88
+  Top = 104
+  Width = 1245
   Height = 528
   Caption = 'Ping Pong Game'
   Color = clWindow
@@ -22,14 +22,14 @@ object Form1: TForm1
   object table: TShape
     Left = 0
     Top = 0
-    Width = 970
+    Width = 1229
     Height = 490
     Align = alClient
     Brush.Color = clTeal
     Pen.Color = clTeal
   end
   object Label1: TLabel
-    Left = 344
+    Left = 488
     Top = 216
     Width = 281
     Height = 25
@@ -45,8 +45,8 @@ object Form1: TForm1
     Visible = False
   end
   object Label3: TLabel
-    Left = 304
-    Top = 64
+    Left = 448
+    Top = 48
     Width = 371
     Height = 29
     Alignment = taCenter
@@ -64,8 +64,8 @@ object Form1: TForm1
     Visible = False
   end
   object Label2: TLabel
-    Left = 432
-    Top = 136
+    Left = 576
+    Top = 128
     Width = 113
     Height = 49
     Alignment = taCenter
@@ -90,8 +90,8 @@ object Form1: TForm1
     Pen.Width = 3
   end
   object rightPaddle: TShape
-    Left = 936
-    Top = 136
+    Left = 1184
+    Top = 160
     Width = 25
     Height = 200
     Brush.Color = clRed
@@ -100,7 +100,7 @@ object Form1: TForm1
     Pen.Width = 3
   end
   object ball: TShape
-    Left = 456
+    Left = 600
     Top = 248
     Width = 65
     Height = 45
@@ -110,8 +110,8 @@ object Form1: TForm1
     Shape = stCircle
   end
   object Button1: TButton
-    Left = 392
-    Top = 368
+    Left = 536
+    Top = 360
     Width = 193
     Height = 41
     Cursor = crHandPoint
@@ -126,7 +126,7 @@ object Form1: TForm1
     OnClick = Button1Click
   end
   object Button3: TButton
-    Left = 392
+    Left = 536
     Top = 296
     Width = 193
     Height = 41
@@ -143,8 +143,8 @@ object Form1: TForm1
     OnClick = Button3Click
   end
   object Button2: TButton
-    Left = 392
-    Top = 368
+    Left = 536
+    Top = 360
     Width = 193
     Height = 41
     Cursor = crHandPoint
@@ -177,21 +177,21 @@ object Form1: TForm1
     Enabled = False
     Interval = 5
     OnTimer = UpPaddleRightTimerTimer
-    Left = 912
+    Left = 1184
     Top = 24
   end
   object DownPaddleRightTimer: TTimer
     Enabled = False
     Interval = 5
     OnTimer = DownPaddleRightTimerTimer
-    Left = 912
+    Left = 1184
     Top = 432
   end
   object BallTimer: TTimer
     Enabled = False
     Interval = 1
     OnTimer = BallTimerTimer
-    Left = 472
+    Left = 616
     Top = 432
   end
 end
